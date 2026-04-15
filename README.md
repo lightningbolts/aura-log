@@ -10,7 +10,10 @@ Next.js app for **AuraLog** — WebGL aura background, Firebase Auth, Firestore 
 
 3. Deploy Firestore rules (see `firestore.rules` in this folder) so users can only read/write their own `daily_auras` documents.
 
+Run commands from **`aura-log/`** (the folder that contains this `package.json`), not the parent `AuraLog/` folder — otherwise Turbopack can resolve modules from the wrong directory.
+
 ```bash
+cd aura-log
 npm install
 npm run dev
 ```
