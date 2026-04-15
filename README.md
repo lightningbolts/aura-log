@@ -1,36 +1,33 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# AuraLog (web)
 
-## Getting Started
+Next.js app for **AuraLog** — WebGL aura background, Firebase Auth, Firestore `daily_auras`, and share export.
 
-First, run the development server:
+## Setup
+
+1. Copy `.env.example` → `.env.local` and fill in Firebase **web** config (Project settings → Your apps → Web app).
+
+2. In Firebase Console, enable **Google** and **Apple** sign-in providers.
+
+3. Deploy Firestore rules (see `firestore.rules` in this folder) so users can only read/write their own `daily_auras` documents.
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Key paths
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+| Area | Path |
+|------|------|
+| Aura shader + hook | `src/hooks/useAuraGradient.ts` |
+| WebGL canvas | `src/components/aura/BackgroundCanvas.tsx` |
+| Main UI (from `ui-start.html`) | `src/components/aura/AuraHomeExperience.tsx` |
+| Firebase config | `src/lib/firebase/firebase.config.ts` |
+| Client app / Auth / Firestore | `src/lib/firebase/client.ts`, `auth-actions.ts`, `daily-auras.ts` |
+| Export (watermark) | `src/lib/export/capture-with-watermark.ts` |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## iOS / Swift
 
-## Learn More
+The shared Swift package lives in `../aura-log-app/aura-log-app/` (Metal shader + `FirebaseApp.configure()` helpers). Use the same Firebase **project** as the web `.env.local` values.
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+See `../aura-log-app/GoogleService-Info.plist.example` for the plist you add to the Xcode app target.
